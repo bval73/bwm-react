@@ -12,12 +12,10 @@ import RentalDetail  from 'components/rental/rental-detail/RentalDetail';
 import 'App.css';
 
 /* const store = init() could use in conjuction with import init above */
- const store = require('./reducers').init()
+ const store = require('./reducers').init();
 
 class App extends Component {
-
   render() {
-    
     return (
       <Provider store={store}>
         <BrowserRouter>
