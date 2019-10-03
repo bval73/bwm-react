@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt'); //for encryption of password..
+//const bcrypt = require('bcrypt'); //for encryption of password..
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
