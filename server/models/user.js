@@ -1,4 +1,4 @@
-//const bcrypt = require('bcrypt'); //for encryption of password..
+const bcrypt = require('bcrypt'); //for encryption of password..
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -8,6 +8,7 @@ const userSchema = new Schema({
         type: String,
         min: [4, 'Too short min character is 4 charcter'],
         max: [32, 'Too long max character is 32 charcter']
+//        required: 'User name is required',
     },
     email:{
         type:String,
@@ -47,3 +48,4 @@ userSchema.pre('save', function(next) {
 })
 
 module.exports = mongoose.model('User', userSchema);
+

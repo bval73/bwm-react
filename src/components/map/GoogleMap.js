@@ -23,12 +23,12 @@ console.log('MapComponent');
       options={{disableDefaultUI: isError ? true : false}}
     >
       {isLocationLoaded && !isError && <Circle center={coordinates} radius={500} />}
-      {isLocationLoaded && isError && <Marker><InfoWindow position={coordinates} options={{maxWidth:300}}> 
+      {isLocationLoaded && isError && <InfoWindow position={coordinates} options={{maxWidth:300}} > 
         <div>
           There was an issue finding the location on the map, we are trying to resolve the 
           issue as soon as possible. 
         </div>
-      </InfoWindow></Marker>}
+      </InfoWindow>}
     </GoogleMap>
   )
 }
@@ -41,7 +41,7 @@ function withGeocode(WrappedComponent) {
 
       this.cacher = new Cacher();
       this.state = {
-        coofdinates: {
+        coordinates: {
           lat: 0,
           lng: 0
         },
@@ -88,8 +88,8 @@ function withGeocode(WrappedComponent) {
     getGeocodeLocation() {
       console.log('getGeocodeLocation');
       const location = this.props.location;
-/*      
-      if(Math.floor(Math.random() * 10) > 5) {
+      
+/*      if(Math.floor(Math.random() * 10) > 5) {
         location = 'irbg75joihoi';
       }
 */
@@ -101,16 +101,14 @@ function withGeocode(WrappedComponent) {
       } else {
         this.geocodeLocation(location).then(
           (coordinates) =>{
-      console.log('getGeocodeLocation else');            
+            console.log('getGeocodeLocation else');            
             this.updateCoordinates(coordinates);
           },
           (error) =>{
-            this.setState({isLocationLoaded:true, isError: true });
+            this.setState({isLocationLoaded:true, isError: true, position:{lat:0, lng:0}} );
           }
         );
       }
-
-      
     }
     
     render() {

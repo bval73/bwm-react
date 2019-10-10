@@ -1,6 +1,6 @@
 const User = require('../models/user');
 const { normalizeErrors } = require('../helpers/mongoose');
-//const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const config = require('../config');
 
 exports.auth = function(req, res){
@@ -34,10 +34,10 @@ exports.auth = function(req, res){
 }
 
 exports.register = function(req, res){
-    const {username, email, password, passwordConfirmation} = req.body // destructure object
+    const { username, email, password, passwordConfirmation } = req.body // destructure object
     
     if(!password || !email){
-        return res.status(422).send({errors: [{title: 'Data missing', detail: 'Provide email and password'}]});
+            return res.status(422).send({errors: [{title: 'Data missing', detail: 'Provide email and password'}]});
     }
 
     if(password !== passwordConfirmation){
@@ -98,3 +98,4 @@ function parseToken(token){
 function notAuthorized(res){
     return res.status(401).send({errors: [{title: 'You are not authorized', detail: 'You need to login to gain access'}]});
 }
+
