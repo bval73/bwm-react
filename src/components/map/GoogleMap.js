@@ -4,7 +4,7 @@ import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Marker,
+//  Marker,
   Circle,
   InfoWindow
 } from "react-google-maps";
@@ -34,7 +34,7 @@ console.log('MapComponent');
 }
 
 function withGeocode(WrappedComponent) {
-  console.log('withGeocode');
+
   return class extends React.Component {
     constructor() {
       super();
