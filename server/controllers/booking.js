@@ -2,7 +2,7 @@ const Booking = require('../models/booking');
 const Rental = require('../models/rental');
 const User = require('../models/user');
 const { normalizeErrors } = require('../helpers/mongoose');
-//const moment = require('moment');
+const moment = require('moment');
 
 exports.createBooking = function(req, res){
     const { startAt, endAt, totalPrice, guests, days, rental } = req.body;
@@ -21,7 +21,7 @@ exports.createBooking = function(req, res){
 
     //        if (foundRental.user.equals(user.id)) {
         if(foundRental.user.id === user.id){
-            return res.status(422).send({errors: [{title: 'Invalid User', detail: 'Cannot create booking on your own Rental.'}]});
+            return res.status(422).send({errors: [{title: 'Invalid User!', detail: 'Cannot create booking on your own Rental.'}]});
         } 
         
         if(isValidBooking(booking, foundRental)){
@@ -63,7 +63,8 @@ exports.getUserBookings = function(req, res){
       return res.json(foundBookings);
     });
 }
-/*
+
+
 function isValidBooking(proposedBooking, rental){
     let isValid = true;
 
@@ -83,5 +84,5 @@ function isValidBooking(proposedBooking, rental){
 
     return isValid;
 }
-*/
+
 
