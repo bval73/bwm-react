@@ -108,7 +108,6 @@ export class Booking extends React.Component {
         open: true
       }
     });
-    console.log(this.state);
   }
 
   cancelConfirmation() {

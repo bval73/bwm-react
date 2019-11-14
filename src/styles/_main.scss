@@ -41,3 +41,7 @@
         background-color:$main-color !important;
     }
 }
+
+input[type="checkbox"], input[type="radio"] {
+  width: 20px;
+}

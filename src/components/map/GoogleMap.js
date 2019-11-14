@@ -10,7 +10,6 @@ import {
 } from "react-google-maps";
 
 function MapComponent(props) {
-console.log('MapComponent');
 
   const {coordinates, isError, isLocationLoaded} = props;
 //  const coordinates = props.coordinates;
@@ -51,7 +50,6 @@ function withGeocode(WrappedComponent) {
     }
 
     componentWillMount() {
-      console.log('componentWillMount');
       this.getGeocodeLocation();
     }
 
@@ -67,7 +65,6 @@ function withGeocode(WrappedComponent) {
     }
 
     geocodeLocation(location){
-      console.log('geocodeLocation');
       const geocoder = new window.google.maps.Geocoder();
       return new Promise((resolve, reject) => {
         geocoder.geocode({address: location}, (result, status) => {
@@ -86,7 +83,6 @@ function withGeocode(WrappedComponent) {
     }
 
     getGeocodeLocation() {
-      console.log('getGeocodeLocation');
       const location = this.props.location;
       
 /*      if(Math.floor(Math.random() * 10) > 5) {
@@ -95,13 +91,11 @@ function withGeocode(WrappedComponent) {
 */
       //return cached value
       if (this.cacher.isValueCached(location)) {
-      console.log('setState cacher');        
       this.updateCoordinates(this.cacher.getCachedValue(location));  
       //return geocode location
       } else {
         this.geocodeLocation(location).then(
           (coordinates) =>{
-            console.log('getGeocodeLocation else');            
             this.updateCoordinates(coordinates);
           },
           (error) =>{

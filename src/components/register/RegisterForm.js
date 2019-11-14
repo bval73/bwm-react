@@ -49,7 +49,7 @@ const validate = values => {
   const errors = {}
 
   if(values.username && values.username.length < 4) {
-    errors.username= 'username min length is 4 characters';
+    errors.username = 'username min length is 4 characters';
   }
 
 /*  if(!values.email || !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -87,3 +87,4 @@ export default reduxForm({
   form: 'registerForm', // a unique identifier for this form
   validate
 })(RegisterForm)
+
