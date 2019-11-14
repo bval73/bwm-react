@@ -7,6 +7,8 @@ import { FETCH_RENTAL_BY_ID_SUCCESS,
   FETCH_RENTALS_SUCCESS,
   LOGIN_FAILURE,
   LOGIN_SUCCESS, 
+  FETCH_RENTALS_INIT,
+  FETCH_RENTALS_FAIL,
   LOGOUT} from './types';
 
 
@@ -36,12 +38,28 @@ const fetchRentalSuccess = (rentals) => {
   }
 }
 
-export const fetchRentals = () => {
+const fetchRentalsInit = () => {
+  return {
+    type: FETCH_RENTALS_INIT
+  }
+}
+
+const fetchRentalsFail = (errors) => {
+  return {
+    type:FETCH_RENTALS_FAIL,
+    errors
+  }
+}
+
+export const fetchRentals = (city) => {
+  const url = city ? `/rentals?city=${city}` : '/rentals';
+
   return dispatch => {
-    axiosInstance.get('/rentals')
+    dispatch(fetchRentalsInit());
+    axiosInstance.get(url)
       .then(res => res.data )
-      .then(rentals => dispatch(fetchRentalSuccess(rentals))
-    );
+      .then(rentals => dispatch(fetchRentalSuccess(rentals)))
+      .catch(({response}) => dispatch(fetchRentalsFail(response.data.errors)))
   }
 }
 
@@ -56,18 +74,27 @@ export const fetchRentalById = (rentalId) => {
   }
 }
 
+export const createRental = (rentalData) => {
+  return axiosInstance.post('/rentals', rentalData).then(
+    res => res.data, // wont need all brackets, curly braces when 1 liner
+    err => Promise.reject(err.response.data.errors)
+  )
+}
+
 // Auth Actions --------------------------------------------
 
 export const register = (userData) => {
   return axios.post('/api/v1/users/register', userData).then(
-    res => res.data, // sont need all brackets, curly braces when 1 liner
+    res => res.data, // wont need all brackets, curly braces when 1 liner
     err => Promise.reject(err.response.data.errors)
   )
 }
 
 const loginSuccess = () => {
+  const username = authService.getUsername();
   return {
-    type: LOGIN_SUCCESS
+    type: LOGIN_SUCCESS,
+    username
   }
 }
 
