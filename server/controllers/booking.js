@@ -85,4 +85,3 @@ function isValidBooking(proposedBooking, rental){
     return isValid;
 }
 
-
