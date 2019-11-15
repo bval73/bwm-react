@@ -52,19 +52,19 @@ class RentalSearchListing extends React.Component{
   }
 
   render(){
-      return(
-          <section id='rentalListing'>
-              {this.renderTitle()}
-              <RentalList rentals={this.props.rentals.data} />
-          </section>
-      )
+    return(
+      <section id='rentalListing'>
+         {this.renderTitle()}
+          <RentalList rentals={this.props.rentals.data} />
+      </section>
+    )
   }
 }
 
 function mapStateToProps(state) {
-    return{
-        rentals: state.rentals
-    }
+  return{
+    rentals: state.rentals
+  }
 }
 
 export default connect(mapStateToProps)(RentalSearchListing)
