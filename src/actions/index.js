@@ -9,7 +9,10 @@ import { FETCH_RENTAL_BY_ID_SUCCESS,
   LOGIN_SUCCESS, 
   FETCH_RENTALS_INIT,
   FETCH_RENTALS_FAIL,
-  LOGOUT} from './types';
+  LOGOUT,
+  FETCH_USER_BOOKINGS_INIT,
+  FETCH_USER_BOOKINGS_SUCCESS,
+  FETCH_USER_BOOKINGS_FAIL} from './types';
 
 
 //Rental Actions --------------------------------------------
@@ -56,10 +59,10 @@ export const fetchRentals = (city) => {
 
   return dispatch => {
     dispatch(fetchRentalsInit());
-    axiosInstance.get(url)
-      .then(res => res.data )
-      .then(rentals => dispatch(fetchRentalSuccess(rentals)))
-      .catch(({response}) => dispatch(fetchRentalsFail(response.data.errors)))
+      axiosInstance.get(url)
+        .then(res => res.data )
+        .then(rentals => dispatch(fetchRentalSuccess(rentals)))
+        .catch(({response}) => dispatch(fetchRentalsFail(response.data.errors)))
   }
 }
 
@@ -80,6 +83,57 @@ export const createRental = (rentalData) => {
     err => Promise.reject(err.response.data.errors)
   )
 }
+
+// User Bookings Actions -----------------------------------------------
+
+const fetchUserBookingsSuccess = (userBookings) => {
+  return{
+    type: FETCH_USER_BOOKINGS_SUCCESS,
+    userBookings
+  }
+}
+
+const fetchUserBookingsInit = () => {
+  return {
+    type: FETCH_USER_BOOKINGS_INIT
+  }
+}
+
+const fetchUserBookingsFail = (errors) => {
+  return {
+    type:FETCH_USER_BOOKINGS_FAIL,
+    errors
+  }
+}
+
+export const fetchUserBookings = (userBookings) => {
+  // uses redux.thunk
+  return function(dispatch){
+    dispatch(fetchUserBookingsInit());
+    // iterate through rentals to find selected user
+    axiosInstance.get('bookings/manage')
+      .then(res => res.data )
+      .then(userBookings => dispatch(fetchUserBookingsSuccess(userBookings)))
+      .catch(({response}) => dispatch(fetchUserBookingsFail(response.data.errors)))
+  }
+}
+
+// User Rentals Actions -----------------------------------------------
+
+export const getUserRentals = () => {
+  return axiosInstance.get('/rentals/manage').then(
+    res => res.data, // wont need all brackets, curly braces when 1 liner
+    err => Promise.reject(err.response.data.errors)
+  )
+}
+
+export const deleteRental = (rentalId) => {
+  return axiosInstance.delete(`/rentals/${rentalId}`).then(
+    res => res.data, // wont need all brackets, curly braces when 1 liner
+    err => Promise.reject(err.response.data.errors)
+  )
+}
+
 
 // Auth Actions --------------------------------------------
 

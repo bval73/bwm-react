@@ -5,6 +5,7 @@ import { rentalReducer, selectedRentalReducer } from './rental-reducer';
 import { authReducer } from './auth-reducer';
 import { reducer as formReducer } from 'redux-form'
 
+import { userBookingsReducer } from './booking-reducer';
 
 export const init = () => {
   //register all reducers
@@ -12,7 +13,8 @@ export const init = () => {
     rentals: rentalReducer,
     rental: selectedRentalReducer,
     form: formReducer,
-    auth: authReducer
+    auth: authReducer,
+    userBookings: userBookingsReducer
   });
 
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
