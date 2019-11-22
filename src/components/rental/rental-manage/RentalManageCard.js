@@ -2,9 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { dtFormat, toUpperCase } from 'helpers';
 
-import * as actions from 'actions';
-
-
 export class RentalManageCard extends React.Component {
 
   constructor() {
@@ -36,7 +33,7 @@ export class RentalManageCard extends React.Component {
   render() {
     const { rental, modal, rentalIndex } = this.props;
     const { deleteRental } = this.state;
-    
+
     const deleteClass =  deleteRental ? 'toBeDeleted' : '';
     return(
       <div className='col-md-4'>
