@@ -13,7 +13,8 @@ const rentalRoutes = require('./routes/rentals'),
       bookingRoutes = require('./routes/bookings');
 
 
-mongoose.connect(config.DB_URI, { useNewUrlParser: true }).then(()=> {
+//mongoose.connect(config.DB_URI, { useNewUrlParser: true }).then(() => {
+  mongoose.connect(config.DB_URI).then(() => {
     if(process.env.NODE_ENV !== 'production'){
         const fakeDb = new FakeDb();
 //        fakeDb.seedDb();
@@ -27,11 +28,12 @@ app.use('/api/v1/rentals', rentalRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/bookings', bookingRoutes);
 
-if(process.env.NODE_ENV === 'production'){
-    const appPath = path.join(__dirname, '..', 'dist');
-    app.use(express.static(appPath))
+if(process.env.NODE_ENV === 'production') {
+//    const appPath = path.join(__dirname, '..', 'dist');  For angular
+    const appPath = path.join(__dirname, '..', 'build');
+    app.use(express.static(appPath));
 
-    app.get('*', function(req, res){
+    app.get('*', function(req, res) {
         res.sendFile(path.resolve(appPath, 'index.html'));
     });
 }
