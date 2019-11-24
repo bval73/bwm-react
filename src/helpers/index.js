@@ -1,4 +1,4 @@
-import titleize from 'titleize';
+import { titleize } from 'components/shared/upper/Upper';
 import * as moment from 'moment';
 
 export const rentalType = isShared => isShared ? 'shared' : 'entire'
