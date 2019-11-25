@@ -23,4 +23,3 @@ export const BwmInput = ({
         ((error && <div className='alert alert-danger'>{error}</div>))}
   </div>
 )
-
