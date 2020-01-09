@@ -12,7 +12,10 @@ import { FETCH_RENTAL_BY_ID_SUCCESS,
   LOGOUT,
   FETCH_USER_BOOKINGS_INIT,
   FETCH_USER_BOOKINGS_SUCCESS,
-  FETCH_USER_BOOKINGS_FAIL} from './types';
+  FETCH_USER_BOOKINGS_FAIL,
+  UPDATE_RENTAL_SUCCESS,
+  UPDATE_RENTAL_FAIL,
+  RESET_RENTAL_ERRORS} from './types';
 
 
 //Rental Actions --------------------------------------------
@@ -82,6 +85,36 @@ export const createRental = (rentalData) => {
     res => res.data, // wont need all brackets, curly braces when 1 liner
     err => Promise.reject(err.response.data.errors)
   )
+}
+
+export const resetRentalErrors = () => {
+  debugger;
+  return {
+    type: RESET_RENTAL_ERRORS
+  }
+}
+
+const updateRentalSuccess = (updatedRental) => {
+  return{
+    type: UPDATE_RENTAL_SUCCESS,
+    rental: updatedRental
+  }
+}
+
+const updateRentalFail = (errors) => {
+  return{
+    type: UPDATE_RENTAL_FAIL,
+    errors
+  }
+}
+
+export const updateRental = (id, rentalData) => dispatch => {
+  return axiosInstance.patch(`/rentals/${id}`, rentalData)
+    .then(res => res.data)
+    .then(updatedRental => {
+      dispatch(updateRentalSuccess(updatedRental));
+    })
+    .catch(({response}) => dispatch(updateRentalFail(response.data.errors)))
 }
 
 // User Bookings Actions -----------------------------------------------

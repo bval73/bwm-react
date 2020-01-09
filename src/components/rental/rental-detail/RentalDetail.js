@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { RentalDetailInfo } from './RentalDetailInfo';
+import { RentalDetailUpdate } from './RentalDetailUpdate';
 import { RentalMap } from './RentalMap';
 import Booking from 'components/booking/Booking';
 
@@ -15,11 +16,19 @@ class RentalDetail extends Component {
     this.props.dispatch(actions.fetchRentalById(rentalId));
   }
 
+  renderRentalDetail(rental, errors) {
+    const { isUpdate } = this.props.location.state || false;
+
+    return isUpdate ? <RentalDetailUpdate dispatch={this.props.dispatch} errors={errors} rental={rental} />
+                    : <RentalDetailInfo rental={rental} />
+  }
+
   render() {
 //    console.log(this.props);
-    const rental = this.props.rental;
-//    const { rental } = this.props;
-    
+//    const rental = this.props.rental;
+
+    const { rental, errors } = this.props;
+
       if(rental._id){
         return (
           <section id='rentalDetails'>
@@ -37,7 +46,7 @@ class RentalDetail extends Component {
             <div className='details-section'>
               <div className='row'>
                 <div className='col-md-8'>
-                  <RentalDetailInfo rental={rental} />
+                  {this.renderRentalDetail(rental, errors)}
                 </div>
                 <div className='col-md-4'> 
                   <Booking rental={rental} />
@@ -57,7 +66,8 @@ class RentalDetail extends Component {
 
 function mapStateToProps(state) {
   return{
-    rental: state.rental.data 
+    rental: state.rental.data,
+    errors: state.rental.errors 
   }
 }
 

@@ -2,7 +2,11 @@ import { FETCH_RENTAL_BY_ID_SUCCESS,
          FETCH_RENTAL_BY_ID_INIT,
          FETCH_RENTALS_SUCCESS,
          FETCH_RENTALS_INIT,
-         FETCH_RENTALS_FAIL } from '../actions/types';
+         FETCH_RENTALS_FAIL,
+         UPDATE_RENTAL_SUCCESS,
+         UPDATE_RENTAL_FAIL,
+         RESET_RENTAL_ERRORS } from '../actions/types';
+import actions from 'redux-form/lib/actions';
 
 const INITIAL_STATE = {
   rentals:{
@@ -10,7 +14,8 @@ const INITIAL_STATE = {
     errors: []
   },
   rental:{
-    data:{}
+    data:{},
+    errors: []
   }
 }
 
@@ -34,7 +39,14 @@ export const selectedRentalReducer = (state = INITIAL_STATE.rental, action) => {
       return {...state, data: {}};
     case FETCH_RENTAL_BY_ID_SUCCESS:
     // return Object.assign({}, state, {data: action.rental}) same as below  
-    return {...state, data: action.rental};
+      return {...state, data: action.rental};
+    case  UPDATE_RENTAL_SUCCESS:
+      return {...state, data: action.rental};
+    case UPDATE_RENTAL_FAIL:
+//      return Object.assign({}, state, {errors: action.errors, data: []});
+      return {...state, errors: actions.errors};
+    case RESET_RENTAL_ERRORS:
+      return {...state, errors: []};
     default:
       return state;
   }
