@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 export const titleize = input => {
 	if (typeof input !== 'string') {

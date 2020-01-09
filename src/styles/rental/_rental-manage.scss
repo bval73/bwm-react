@@ -42,9 +42,13 @@
     margin-top:5px;
   }
 
-  .btn-danger, .btn-success{
+  .btn-danger, .btn-success, .btn-warning{
     margin-left:10px;
     font-size:14px;
+  }
+
+  .btn-warning {
+    color: white;
   }
 
   .btn-bwm {
