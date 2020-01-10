@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import { RentalAssets } from './RentalAssets';
 import { toUpperCase, rentalType } from 'helpers';
 
@@ -110,3 +112,12 @@ export class RentalDetailUpdate extends React.Component{
     )
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    rental: state.rental.data,
+    errors: state.rental.errors
+  }
+}
+
+export default connect(mapStateToProps)(RentalDetailUpdate)
