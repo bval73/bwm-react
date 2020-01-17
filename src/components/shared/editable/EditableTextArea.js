@@ -36,7 +36,7 @@ export class EditableTextArea extends EditableComponent {
   }
 
   render() {
-    const { value } = this.state;
+//    const { value } = this.state;
     return(
       <div className='editableComponent' style={this.props.containerStyle}>
         {this.renderComponentView()}

@@ -53,11 +53,20 @@ function withGeocode(WrappedComponent) {
       this.getGeocodeLocation();
     }
 
+    componentDidUpdate() {
+      if(this.props.isReloading) {
+        this.getGeocodeLocation();
+      }
+    }
+
 /*    componentDidMount(){
       console.log('componentDidMount');
     }*/
 
     updateCoordinates(coordinates) {
+
+      this.props.mapLoaded();
+
       this.setState({
         coordinates,
         isLocationLoaded: true
@@ -99,6 +108,7 @@ function withGeocode(WrappedComponent) {
             this.updateCoordinates(coordinates);
           },
           (error) =>{
+            this.props.mapLoaded();
             this.setState({isLocationLoaded:true, isError: true, position:{lat:0, lng:0}} );
           }
         );
@@ -106,6 +116,7 @@ function withGeocode(WrappedComponent) {
     }
     
     render() {
+
       return(
         <WrappedComponent {...this.state}/>
       )

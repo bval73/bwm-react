@@ -42,7 +42,6 @@ export class RentalManage extends React.Component {
         this.removeRentalFromList(rentalIndex);
       },
       (errors) => {
-        debugger;
         toast.error(errors[0].detail);
       }
     )

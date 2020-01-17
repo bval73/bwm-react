@@ -15,8 +15,25 @@ import { FETCH_RENTAL_BY_ID_SUCCESS,
   FETCH_USER_BOOKINGS_FAIL,
   UPDATE_RENTAL_SUCCESS,
   UPDATE_RENTAL_FAIL,
-  RESET_RENTAL_ERRORS} from './types';
+  RESET_RENTAL_ERRORS,
+  RELOAD_MAP,
+  RELOAD_MAP_FINISH} from './types';
 
+  export const verifyRentalOwner = (rentalId) => {
+    return axiosInstance.get(`/rentals/${rentalId}/verify-user`)
+  }
+
+  export const reloadMap = () => {
+    return {
+      type: RELOAD_MAP
+    }
+  }
+
+  export const reloadMapFinish = () => {
+    return {
+      type: RELOAD_MAP_FINISH
+    }
+  }
 
 //Rental Actions --------------------------------------------
 
@@ -88,7 +105,7 @@ export const createRental = (rentalData) => {
 }
 
 export const resetRentalErrors = () => {
-  debugger;
+
   return {
     type: RESET_RENTAL_ERRORS
   }
@@ -113,6 +130,10 @@ export const updateRental = (id, rentalData) => dispatch => {
     .then(res => res.data)
     .then(updatedRental => {
       dispatch(updateRentalSuccess(updatedRental));
+
+      if(rentalData.city || rentalData.street) {
+        dispatch(reloadMap()); // when map updates due to update page..
+      }
     })
     .catch(({response}) => dispatch(updateRentalFail(response.data.errors)))
 }

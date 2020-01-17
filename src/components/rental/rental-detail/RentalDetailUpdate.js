@@ -1,8 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+
 import { RentalAssets } from './RentalAssets';
-import { toUpperCase, rentalType } from 'helpers';
+import { toUpperCase } from 'helpers';
+
+import { toast } from 'react-toastify';
 
 import { EditableInput } from '../../shared/editable/EditableInput';
 import { EditableTextArea } from '../../shared/editable/EditableTextArea';
@@ -21,22 +24,22 @@ export class RentalDetailUpdate extends React.Component{
   }
   
   updateRental(rentalData) {
-    const {rental: {_id}, dispatch, errors } = this.props;
-    console.log('updateRental');
-    debugger;
+    const {rental: {_id}, dispatch } = this.props;
+//    console.log('updateRental');
 
-    this.props.dispatch(actions.updateRental(_id, rentalData));
+    dispatch(actions.updateRental(_id, rentalData));
   }
 
   resetRentalErrors() {
-    console.log('resetRentalErrors');
+//    console.log('resetRentalErrors');
     this.props.dispatch(actions.resetRentalErrors());
   }
 
   render() {
     const {rental, errors} = this.props;
-    console.log('RentalDetailUpdate render');
-    console.log(errors);
+    if(errors && errors.length > 0){
+      toast.error(errors[0].detail);
+    }
     
     return (
       <div className='rental'>
@@ -75,6 +78,7 @@ export class RentalDetailUpdate extends React.Component{
                        className={'rental-city'}
                        updateEntity={this.updateRental}
                        errors={errors}
+                       formatPipe={[toUpperCase]}
                        resetErrors={this.resetRentalErrors} />
 
         <EditableInput entity={rental} 
@@ -82,6 +86,7 @@ export class RentalDetailUpdate extends React.Component{
                        className={'rental-street'}
                        updateEntity={this.updateRental}
                        errors={errors}
+                       formatPipe={[toUpperCase]}
                        resetErrors={this.resetRentalErrors} />
 
         <div className='rental-room-info'>

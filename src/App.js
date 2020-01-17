@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 
 import { Provider } from 'react-redux';
 
+import { ToastContainer } from 'react-toastify';
+
 import Header from 'shared/Header';
 import RentalListing from 'components/rental/rental-listing/RentalListing';
 import RentalSearchListing from 'components/rental/rental-listing/RentalSearchListing';
@@ -46,6 +48,7 @@ class App extends Component {
       <Provider store={store}>
         <BrowserRouter>
           <div className="App">
+            <ToastContainer />
             <Header logout={this.logout} />
             <div className='container'>
             {/* routing */}
