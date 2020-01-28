@@ -249,3 +249,24 @@ export const createBooking = (booking) => {
         .catch(({response}) => Promise.reject(response.data.errors));
 }
 
+export const uploadImage = image => {
+
+  const formData = new FormData();
+  formData.append('image' , image); //need same key as in routes/image-upload.js
+
+  return axiosInstance.post('/image-upload', formData)
+    .then(json => {
+      return json.data.imageUrl;
+    })
+    .catch(({response}) => Promise.reject(response.data.errors[0]))
+
+}
+
+
+
+
+
+
+
+
+
