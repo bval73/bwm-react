@@ -1,7 +1,5 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
-
 import { dtFormat, toUpperCase } from 'helpers';
 
 
@@ -31,4 +29,34 @@ export function BookingCard (props) {
       </div>
     )
   }
+
+
+  export function PaymentCard (props) {
+    const { booking, payment, paymentBtns } = props;
+      return(
+        <div className='card text-center'>
+          <div className='card-header'>
+          Booking Made By {payment.fromUser.username}
+          </div>
+          <div className='card-block'>
+            {booking.rental &&
+              <div>
+                <h4 className='card-title'> {toUpperCase(booking.rental.title)} - {toUpperCase(booking.rental.city)}</h4>
+                <p className='card-text booking-desc'>{booking.rental.description}</p>
+              </div>
+            }
+            <p className='card-text booking-days'>{dtFormat(booking.startAt)} - {dtFormat(booking.endAt)} | {booking.days} Days</p>
+            <p className='card-text booking-price'><span>Price: </span> <span className='booking-price-value'>{payment.amount / 100}</span></p>
+            <p className='card-test payment-status'>Status: {payment.status}</p>
+            {booking.rental &&
+              <Link className='btn btn-bwm' to={`/rentals/${booking.rental._id}`}>Go to Rental</Link>
+            }
+          </div>
+          <div className='card-footer text-muted'>
+            Created {dtFormat(booking.createdAt)}
+            { payment.status === 'pending' && paymentBtns && paymentBtns(payment) }
+          </div>
+        </div>
+      )
+    }
 

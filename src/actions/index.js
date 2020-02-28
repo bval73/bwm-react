@@ -168,7 +168,13 @@ export const fetchUserBookings = (userBookings) => {
     axiosInstance.get('bookings/manage')
       .then(res => res.data )
       .then(userBookings => dispatch(fetchUserBookingsSuccess(userBookings)))
-      .catch(({response}) => dispatch(fetchUserBookingsFail(response.data.errors)))
+      .catch((response) => {
+        console.log(response)
+        dispatch(fetchUserBookingsFail(response))  
+      })
+/*      .catch(({response}) => 
+      console.log(response)  
+      dispatch(fetchUserBookingsFail(response.data.errors))) */
   }
 }
 
@@ -262,11 +268,24 @@ export const uploadImage = image => {
 
 }
 
+export const getPendingPayments = () => {
+  return axiosInstance.get('/payments')
+    .then(res => res.data)
+    .catch(({response}) => Promise.reject(response.data.errors))
+}
 
+export const acceptPayment = (payment) => {
+  debugger;
+  return axiosInstance.post('/payments/accept', payment)
+    .then(res => res.data)
+    .catch(({response}) => Promise.reject(response.data.errors))
+}
 
-
-
-
+export const declinePayment = (payment) => {
+  return axiosInstance.post('/payments/decline', payment)
+    .then(res => res.data)
+    .catch(({response}) => Promise.reject(response.data.errors))
+}
 
 
 
