@@ -5,6 +5,7 @@ import { getRangeOfDates} from 'helpers';
 import { BookingModal } from './BookingModal';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Payment from '../payment/Payment';
 
 import * as moment from 'moment';
 import * as actions from 'actions';
@@ -20,7 +21,8 @@ class Booking extends React.Component {
       proposedBooking: {
         startAt: '',
         endAt: '',
-        guests: ''
+        guests: '',
+        paymentToken: ''
       },
       modal: {
         open: false
@@ -32,6 +34,7 @@ class Booking extends React.Component {
     this.handleApply = this.handleApply.bind(this);
     this.cancelConfirmation = this.cancelConfirmation.bind(this);
     this.reserveRental = this.reserveRental.bind(this);
+    this.setPaymentToken = this.setPaymentToken.bind(this);
   }
 
   componentWillMount(){
@@ -83,6 +86,13 @@ class Booking extends React.Component {
     })
   }
 
+  setPaymentToken(paymentToken) {
+    const {proposedBooking} = this.state;
+    proposedBooking.paymentToken = paymentToken;
+
+    this.setState({proposedBooking});
+  }
+
   addNewBookedOutDates(booking) {
     const dateRange = getRangeOfDates(booking.startAt, booking.endAt);
     this.bookedOutDates.push(...dateRange);
@@ -121,7 +131,6 @@ class Booking extends React.Component {
   }
 
   reserveRental() {
-
     actions.createBooking(this.state.proposedBooking).then(
       (booking) => {
         this.addNewBookedOutDates(booking);
@@ -136,7 +145,7 @@ class Booking extends React.Component {
 
   render() {
     const { rental, auth: { isAuth } } = this.props;
-    const { startAt, endAt, guests } = this.state.proposedBooking;
+    const { startAt, endAt, guests, paymentToken } = this.state.proposedBooking;
 
     return (
       <div className='booking'>
@@ -183,7 +192,10 @@ class Booking extends React.Component {
                       confirmModal={this.reserveRental}
                       booking={this.state.proposedBooking}
                       errors={this.state.errors}
-                      rentalPrice={rental.dailyRate} />
+                      rentalPrice={rental.dailyRate} 
+                      disabled={!paymentToken}
+                      acceptPayment={() => <Payment setPaymentToken={this.setPaymentToken}/>}
+                      />
       </div>
     )
   }

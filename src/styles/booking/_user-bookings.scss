@@ -47,3 +47,13 @@
   bottom: 0;
   width: 100%;
 }
+
+
+#pendingBookings {
+  .card {
+    margin: 10px;
+    .card-block {
+      padding:10px;
+    }
+  }
+}
