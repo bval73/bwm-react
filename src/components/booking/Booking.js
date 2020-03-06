@@ -54,7 +54,7 @@ class Booking extends React.Component {
 
   checkInvalidDate(date){
 // have to uncomment below it is needed to ck dates in the past    
-//    return this.bookedOutDates.includes(date.format('Y/MM/DD')) || date.diff(moment(), 'days') < 0;
+    return this.bookedOutDates.includes(date.format('Y/MM/DD')) || date.diff(moment(), 'days') < 0;
 
 /*    if(this.bookedOutDates.includes(date.format('Y/MM/DD')) || date.diff(moment(), 'days') < 0) {
       return true;
