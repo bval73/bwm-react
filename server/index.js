@@ -10,9 +10,10 @@ const express = require('express'),
 
 const rentalRoutes = require('./routes/rentals'),
       userRoutes = require('./routes/users'),
-      bookingRoutes = require('./routes/bookings');
-      paymentRoutes = require('./routes/payments');
-      imageUploadRoutes = require('./routes/image-upload'); 
+      bookingRoutes = require('./routes/bookings'),
+      paymentRoutes = require('./routes/payments'),
+      imageUploadRoutes = require('./routes/image-upload'),
+      reviewRoutes = require('./routes/reviews'); 
 
 
 mongoose.connect(config.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
@@ -30,6 +31,7 @@ app.use('/api/v1/rentals', rentalRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/bookings', bookingRoutes);
 app.use('/api/v1/payments', paymentRoutes);
+app.use('/api/v1/reviews', reviewRoutes);
 app.use('/api/v1', imageUploadRoutes);
 
 if(process.env.NODE_ENV === 'production') {

@@ -2,6 +2,7 @@ const Rental = require('./models/rental');
 const User = require('./models/user');
 const Booking = require('./models/booking');
 const Payment = require('./models/payment');
+const Review = require('./models/review');
 
 const fakeDbData = require('./data.json')
 
@@ -17,11 +18,13 @@ class FakeDb{
         await Rental.remove({});
         await Booking.remove({});
         await Payment.remove({});
+//        await Review.remove({});
     }
 
     pushDataToDb(){
         const user = new User(this.user[0]);
         const user2 = new User(this.user[1]);
+//        const user3 = new User(this.user[2]);
         
         this.rentals.forEach((rental) => {
             const newRental = new Rental(rental);
@@ -32,6 +35,7 @@ class FakeDb{
         });
         user.save();
         user2.save();
+//        user3.save();
     }
 
     async seedDb(){

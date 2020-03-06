@@ -3,16 +3,32 @@ import { connect } from 'react-redux';
 import { RentalDetailInfo } from './RentalDetailInfo';
 import RentalMap from './RentalMap';
 import Booking from 'components/booking/Booking';
+import  StarRatings from 'react-star-ratings';
 
+import { dtFormat } from 'helpers'
 
 import * as actions from 'actions';
 
 class RentalDetail extends Component {
 
-  componentWillMount() {
+  state = {
+    reviews: []
+  }
+
+  componentDidMount() {
     //dispatch action
     const rentalId = this.props.match.params.id;
-    this.props.dispatch(actions.fetchRentalById(rentalId));
+    this.props.dispatch(actions.fetchRentalById(rentalId))
+      .then( (rental) => {
+        this.getReviews(rental._id);
+      });
+  }
+
+  getReviews = (rentalId) => {
+    actions.getReviews(rentalId)
+      .then((reviews) => {
+        this.setState({reviews});
+      })
   }
 
   render() {
@@ -20,6 +36,7 @@ class RentalDetail extends Component {
 //    const rental = this.props.rental;
 
     const { rental } = this.props;
+    const { reviews } = this.state;
 
       if(rental._id){
         return (
@@ -46,6 +63,47 @@ class RentalDetail extends Component {
                   <Booking rental={rental} />
                 </div>
               </div>
+
+              { reviews && reviews.length > 0 &&
+                <div className="row">
+                  <div className="col-md-8">
+                    <section style={{marginBottom: '40px'}}>
+                      <h2>Reviews</h2>
+                      { reviews.map(review =>
+                        <div key={review._id} className="card review-card">
+                          <div className="card-body">
+                            <div className="row">
+                              <div className="col-md-2 user-image">
+                                  <img src="https://image.ibb.co/jw55Ex/def_face.jpg" className="img img-rounded img-fluid"/>
+                                  <p className="text-secondary text-center">{dtFormat(review.createdAt)}</p>
+                              </div>
+                              <div className="col-md-10">
+                                <div>
+                                  <a><strong>{review.user.username}</strong></a>
+                                  <div className="review-section">
+                                    <StarRatings
+                                      rating={review.rating}
+                                      starRatedColor="orange"
+                                      starHoverColor="orange"
+                                      starDimension="25px"
+                                      starSpacing="2px"
+                                      numberOfStars={5}
+                                      name='rating'
+                                    />
+                                  </div>
+                                </div>
+                                <div className="clearfix"></div>
+                                <p>{review.text}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </section>
+                  </div>
+                </div>
+              }
+
             </div>
           </section>
 

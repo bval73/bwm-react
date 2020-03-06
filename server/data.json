@@ -42,7 +42,11 @@
     "username": "Test User1",
     "email": "test1@gmail.com",
     "password": "testtest1"
-    }
+    },{
+      "username": "Billy Bob",
+      "email": "billybob@gmail.com",
+      "password": "billybob"
+      }
   ]
 }
   

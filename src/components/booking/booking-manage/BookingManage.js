@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { ReviewModal } from 'components/review/ReviewModal';
 
+import { isExpired } from 'helpers'
 import * as actions from 'actions';
 
 import { BookingCard, PaymentCard } from './BookingCard'
@@ -25,7 +27,7 @@ class BookingManage extends React.Component {
 
   acceptPayment(payment) {
     debugger;
-    this.renderSpinningCircle();
+//    this.renderSpinningCircle();
     actions.acceptPayment(payment)
       .then(status => {
         this.getPendingPayments(); //reload pending status on page after accept can also update pendingPayments
@@ -42,8 +44,29 @@ class BookingManage extends React.Component {
       .catch(err => console.error(err))
   }
 
+  handleReviewCreated = (review, bookingindex) => {
+    const { dispatch } = this.props;
+    const { data: bookings } = this.props.userBookings;
+//    const index = bookings.findIndex((booking) => booking._id === updatedBooking.id);
+//    updatedBooking.review = review;
+    bookings[bookingindex].review = review;
+    dispatch(actions.updateBookings(bookings))
+  }
+
   renderBookings(bookings) {
-    return bookings.map((booking, index) => <BookingCard booking={booking} key={index} />);
+    return bookings
+            .map((booking, index) => 
+              <BookingCard booking={booking} 
+                           key={index}
+                           hasReview={!!booking.review}  //interesting !!booking.review look into it with !booking.review
+                           isExpired={isExpired(booking.endAt)}
+                           reviewModal={() =>  
+                            <ReviewModal onReviewCreated={(review) => {
+                              this.handleReviewCreated(review, index);
+// old way, not so elequent way                              this.props.dispatch(actions.fetchUserBookings());
+                            }} 
+                                         bookingId={booking._id}/> } />
+            );
   }
 
   renderPayments(payments) {
