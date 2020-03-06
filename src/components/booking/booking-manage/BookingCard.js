@@ -4,7 +4,7 @@ import { dtFormat, toUpperCase } from 'helpers';
 
 
 export function BookingCard (props) {
-  const { booking } = props;
+  const { booking, reviewModal, hasReview, isExpired } = props;
     return(
       <div className='card text-center'>
         <div className='card-header'>
@@ -21,6 +21,9 @@ export function BookingCard (props) {
           <p className='card-text booking-price'><span>Price: </span> <span className='booking-price-value'>{booking.totalPrice}</span></p>
           {booking.rental &&
             <Link className='btn btn-bwm' to={`/rentals/${booking.rental._id}`}>Go to Rental</Link>
+          }
+          {
+            reviewModal && isExpired && !hasReview && reviewModal()
           }
         </div>
         <div className='card-footer text-muted'>
