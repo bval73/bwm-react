@@ -6,7 +6,7 @@ import { dtFormat, toUpperCase } from 'helpers';
 export function BookingCard (props) {
   const { booking, reviewModal, hasReview, isExpired } = props;
     return(
-      <div className='card text-center'>
+      <div className='card text-center col-md-4'>
         <div className='card-header'>
         {booking.rental ? booking.rental.category : 'Deleted Rental'}
         </div>
